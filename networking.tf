@@ -93,3 +93,5 @@ output "nat_eip" {
   value       = aws_eip.nat_eip.public_ip
   description = "Elastic IP assigned to NAT Gateway"
 }
+
+# Triggering plan run - no resource change
