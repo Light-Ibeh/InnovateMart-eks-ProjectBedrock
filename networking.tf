@@ -36,7 +36,7 @@ resource "aws_route_table_association" "public_assoc_2" {
 
 # Elastic IP for NAT Gateway (costly only if NAT exists)
 resource "aws_eip" "nat_eip" {
-  vpc = true
+  domain = "vpc"
   tags = {
     Name = "InnovateMart-NAT-EIP"
   }
