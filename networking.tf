@@ -1,22 +1,21 @@
 # networking.tf
-# Internet Gateway + Public/Private Route Tables + NAT Gateway
+# Internet Gateway (data lookup) + Public/Private Route Tables + NAT Gateway
 
-# Internet Gateway
-resource "aws_internet_gateway" "igw" {
-  vpc_id = aws_vpc.main.id
-
-  tags = {
-    Name = "InnovateMart-IGW"
+# Lookup existing Internet Gateway attached to this VPC
+data "aws_internet_gateway" "igw" {
+  filter {
+    name   = "attachment.vpc-id"
+    values = [aws_vpc.main.id]
   }
 }
 
-# Public route table (routes 0.0.0.0/0 -> IGW)
+# Public route table (routes 0.0.0.0/0 -> existing IGW)
 resource "aws_route_table" "public_rt" {
   vpc_id = aws_vpc.main.id
 
   route {
     cidr_block = "0.0.0.0/0"
-    gateway_id = aws_internet_gateway.igw.id
+    gateway_id = data.aws_internet_gateway.igw.id
   }
 
   tags = {
@@ -51,7 +50,8 @@ resource "aws_nat_gateway" "nat" {
     Name = "InnovateMart-NAT-Gateway"
   }
 
-  depends_on = [aws_internet_gateway.igw]
+  # still depends on IGW, but now through data source
+  depends_on = [data.aws_internet_gateway.igw]
 }
 
 # Private route table (routes 0.0.0.0/0 -> NAT)
@@ -80,8 +80,8 @@ resource "aws_route_table_association" "private_assoc_2" {
 
 # Helpful outputs
 output "igw_id" {
-  value       = aws_internet_gateway.igw.id
-  description = "Internet Gateway ID"
+  value       = data.aws_internet_gateway.igw.id
+  description = "Internet Gateway ID (existing)"
 }
 
 output "nat_gateway_id" {
