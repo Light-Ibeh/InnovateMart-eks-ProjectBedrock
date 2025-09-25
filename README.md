@@ -51,18 +51,18 @@ Verified connectivity with:
 kubectl get nodes
 
 
-📸 Insert screenshot of nodes running here
+![Nodes Screenshot](images/kubectl-eks-nodes.png)
 
 
 ---
 
 2. Namespace Creation
 
-We created a dedicated namespace for isolation:
+I created a dedicated namespace for isolation:
 
 kubectl create namespace innovatemart
 
-📸 Insert screenshot of namespace creation here
+![Namespace Screenshot](images/kubectl-namespace-creation.png)
 
 
 ---
@@ -84,12 +84,12 @@ Applied with:
 
 kubectl apply -f deployment.yaml -n innovatemart
 
-📸 Insert screenshot of deployment creation here
+![Deployment Screenshot](images/kubectl-service-deployment-creation.png)
 
 Service Manifest
 
 Initially, the service.yaml caused routing issues because of incorrect configuration.
-We fixed it by ensuring:
+I fixed it by ensuring:
 
 Correct selector: app=innovatemart-final
 
@@ -100,19 +100,18 @@ Applied with:
 
 kubectl apply -f service.yaml -n innovatemart
 
-📸 Insert screenshot of service creation here
+![Service Screenshot](images/kubectl-service-deployment-creation.png)
 
 
 ---
 
 4. Verifying Pods
 
-We confirmed pods were running:
+I confirmed pods were running:
 
 kubectl get pods -n innovatemart
 
-📸 Insert screenshot of pods running here
-
+![Pods Screenshot](images/kubectl-pods-running.png)
 Then checked logs and container contents:
 
 kubectl exec -n innovatemart -it <pod-name> -- sh -c "ls /usr/share/nginx/html"
@@ -121,15 +120,14 @@ Output:
 
 index.html
 
-📸 Insert screenshot of pod file check here
-
+![Pod File Check Screenshot](images/kubectl-pod-file-check.png)
 
 ---
 
 5. Debugging the Web Page Issue
 
-At first, the web page showed incorrect/default content (“Jing”).
-After inspection, we verified the correct index.html was present inside the container:
+At first, the web page showed incorrect/default content
+After inspection, it was verified the correct index.html was present inside the container:
 
 kubectl exec -n innovatemart -it <pod-name> -- sh -c "cat /usr/share/nginx/html/index.html"
 
@@ -144,7 +142,7 @@ Output:
 </body>
 </html>
 
-📸 Insert screenshot of HTML file output here
+![HTML File Screenshot](images/kubectl-html-file-output.png)
 
 This confirmed the pod was serving the intended page.
 
@@ -153,15 +151,15 @@ This confirmed the pod was serving the intended page.
 
 6. Service Verification
 
-We confirmed the Service was routing traffic properly:
+I confirmed the Service was routing traffic properly:
 
 kubectl get svc -n innovatemart
 
-📸 Insert screenshot of service with external IP here
+![External IP Screenshot](images/kubectl-external-ip.png)
 
 The LoadBalancer external IP/DNS was tested in a browser, and the InnovateMart welcome page displayed correctly.
 
-📸 Insert screenshot of final InnovateMart web page here
+![Webpage Screenshot](images/innovatemart-webpage.png)
 
 
 ---
